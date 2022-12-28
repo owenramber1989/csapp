@@ -187,7 +187,10 @@ int negate(int x) { return ~x + 1; }
  *   Max ops: 15
  *   Rating: 3
  */
-int isAsciiDigit(int x) { return 2; }
+int isAsciiDigit(int x) {
+  int i = 1 << 31;
+  return !((x + (~0x30 + 1)) & i) & !((0x39 + (~x + 1)) & i);
+}
 /*
  * conditional - same as x ? y : z
  *   Example: conditional(2,4,5) = 4
