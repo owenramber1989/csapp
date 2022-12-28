@@ -166,7 +166,10 @@ int isTmax(int x) { return !(~((x + 1) + x) | !(x + 1)); }
  *   Max ops: 12
  *   Rating: 2
  */
-int allOddBits(int x) { return 2; }
+int allOddBits(int x) {
+  int idx = ((0xAA << 24) + (0xAA << 16) + (0xAA << 8) + 0xAA);
+  return !((x & idx) ^ idx);
+}
 /*
  * negate - return -x
  *   Example: negate(1) = -1.
