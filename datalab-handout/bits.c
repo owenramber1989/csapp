@@ -214,7 +214,7 @@ int isLessOrEqual(int x, int y) {
   int i = (x >> 31) & 1;
   int j = (y >> 31) & 1;
   int k = ((y + (~x) + 1) >> 31) & 1;
-  return i & (~j) | ((!k) & (~(i ^ j)));
+  return (i & (~j)) | ((!k) & (~(i ^ j)));
 }
 // 4
 /*
@@ -238,7 +238,33 @@ int logicalNeg(int x) { return ((x | (~x + 1)) >> 31) + 1; }
  *  Max ops: 90
  *  Rating: 4
  */
-int howManyBits(int x) { return 0; }
+int howManyBits(int x) {
+  int bit;
+  int res = 1;
+  x = x ^ (x >> 31);
+
+  bit = !!(x >> 16) << 4;
+  res = res + bit;
+  x = x >> bit;
+
+  bit = !!(x >> 8) << 3;
+  res = res + bit;
+  x = x >> bit;
+
+  bit = !!(x >> 4) << 2;
+  res = res + bit;
+  x = x >> bit;
+
+  bit = !!(x >> 2) << 1;
+  res = res + bit;
+  x = x >> bit;
+
+  bit = !!(x >> 1);
+  res = res + bit;
+  x = x >> bit;
+
+  return x + res;
+}
 // float
 /*
  * floatScale2 - Return bit-level equivalent of expression 2*f for
